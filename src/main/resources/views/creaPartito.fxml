@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CreaPartitoController">
+   <children>
+      <HBox alignment="CENTER" layoutX="196.0" layoutY="52.0" spacing="5.0">
+         <children>
+            <Label prefWidth="80.0" text="Nome">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="lblNome" onAction="#handleNome">
+               <HBox.margin>
+                  <Insets top="3.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <Button fx:id="btnCreaPartito" layoutX="262.0" layoutY="320.0" mnemonicParsing="false" onAction="#handleBtnCreaPartito" text="Crea partito" />
+      <HBox alignment="CENTER" layoutX="20.0" layoutY="86.0" prefHeight="59.0" prefWidth="560.0" spacing="5.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="127.0" text="Capo partito">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox fx:id="choiceCapoPartito" onDragDetected="#handleCapoPartito" onMouseClicked="#handleChoiceModVoto" onMouseDragEntered="#handleChoiceModVoto" onMouseDragExited="#handleChoiceModVoto" onMouseDragOver="#handleChoiceModVoto" onMouseDragReleased="#handleChoiceModVoto" onMouseDragged="#handleChoiceModVoto" onMouseEntered="#handleChoiceModVoto" onMouseExited="#handleChoiceModVoto" onMouseMoved="#handleChoiceModVoto" onMousePressed="#handleChoiceModVoto" onMouseReleased="#handleChoiceModVoto" prefWidth="150.0" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <ButtonBar buttonMinWidth="0.0" layoutX="1.0" prefHeight="40.0" prefWidth="39.0">
+         <buttons>
+            <Button fx:id="btnGetBack" minWidth="0.0" mnemonicParsing="false" onAction="#handleGetBack" prefHeight="25.0" prefWidth="32.0" text="&lt;" textAlignment="CENTER" />
+         </buttons>
+      </ButtonBar>
+      <GridPane fx:id="paneCandidati" layoutX="129.0" layoutY="144.0" prefHeight="128.0" prefWidth="346.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
+      <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="98.0" layoutY="291.0" prefHeight="17.0" prefWidth="409.0" />
+   </children>
+</AnchorPane>

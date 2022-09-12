@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="420.0" prefWidth="570.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.AreaElettoreController">
+   <children>
+      <HBox alignment="CENTER" layoutX="20.0" layoutY="152.0" prefHeight="59.0" prefWidth="560.0" spacing="5.0">
+         <children>
+            <Label prefHeight="17.0" prefWidth="127.0" text="Scheda elettorale">
+               <HBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </HBox.margin>
+            </Label>
+            <ChoiceBox fx:id="choiceSchedaElettorale" prefWidth="150.0" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+      <Label layoutX="144.0" layoutY="83.0" text="Scegliere la consultazione per cui votare">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnVota" layoutX="282.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleVota" text="Vota" />
+      <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="286.0" prefHeight="40.0" prefWidth="381.0" textAlignment="CENTER" />
+      <ButtonBar buttonMinWidth="0.0" layoutX="1.0" prefHeight="40.0" prefWidth="51.0">
+         <buttons>
+            <Button fx:id="btnGetBack" alignment="CENTER" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" onAction="#handleGetBack" prefHeight="25.0" prefWidth="40.0" text="Esci" textAlignment="CENTER" />
+         </buttons>
+      </ButtonBar>
+      <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="104.0" layoutY="318.0" prefHeight="17.0" prefWidth="398.0" />
+      <Label layoutX="152.0" layoutY="318.0" text="Esprimere la preferenza impiegherà al massimo 5 minuti" />
+   </children>
+</AnchorPane>
