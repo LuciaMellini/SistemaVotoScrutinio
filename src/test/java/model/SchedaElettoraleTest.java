@@ -2,6 +2,12 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Map.Entry;
+
 import org.junit.jupiter.api.Test;
 
 class SchedaElettoraleTest {
@@ -49,56 +55,173 @@ class SchedaElettoraleTest {
 		Preferenza p = new Preferenza();
 		for(Voce v: s.getInformazione().getVoci()) p.add(v, 1);
 		s.esprimiPreferenza(p);
+		for(Entry<Voce, Integer> e : p) assertTrue(s.getPreferenze().contains(e));
+
 		s.elimina();
 		q.elimina();
 	}
 
+
 	@Test
-	void getPreferenzeVuoto() {
-		SchedaElettorale s = new SchedaElettorale("", new InformazioneScheda(), 0, ModVoto.CATEGORICO, ModCalcoloVincitore.MAGGIORANZA, 0);
-		assertTrue(s.getPreferenze().isEmpty());
-	}
-	
-	
-	/*test vari tipi scheda eletrtorale scrutinio
-	
-	@Test
-	void scrutinioScrutinatoreNoPreferenze() {
-		Cae cae = new Cae("prova@prova.com", true, false);
+	void scrutinioNoPreferenze() {
 		SchedaElettorale s = new SchedaElettorale("", new InformazioneScheda(), 0, ModVoto.CATEGORICO, ModCalcoloVincitore.MAGGIORANZA, 0);
 		s.crea();
-		assertEquals(cae.scrutinio(s), s.scrutinio());
+		assertFalse(s.scrutinio());
 		s.elimina();
 	}
 	
 	@Test
-	void scrutinioScrutinatoreRisultatiRaggiuntoLivelloQuorum() {
-		Cae cae = new Cae("prova@prova.com", true, false);
+	void scrutinioSìPreferenzeNoTerminataSessione() {
 		InformazioneScheda i = new InformazioneScheda();
-		i.add(new Quesito("test"));
-		SchedaElettorale s = new SchedaElettorale("", i, 0, ModVoto.CATEGORICO, ModCalcoloVincitore.MAGGIORANZA, 0);
+		Quesito q = new Quesito("test");
+		q.crea();
+		i.add(q);
+		SchedaElettorale sch = new SchedaElettorale("", i, 0, ModVoto.CATEGORICO, ModCalcoloVincitore.MAGGIORANZA, 100);
+		sch.crea();
+		Set<SchedaElettorale> schede = new HashSet<>();
+		schede.add(sch);
+				
+		Calendar c = Calendar.getInstance(); 
+		c.add(Calendar.DATE, -1);
+		Date inizio = c.getTime();
+		
+		c = Calendar.getInstance(); 
+		c.add(Calendar.DATE, 2);
+		Date fine = c.getTime();
+				
+		Sessione s = new Sessione("test sessione", inizio, fine, schede, "Palermo");
 		s.crea();
-		Elettore e = new Elettore("test@test.com", "TTTTTTTTTTTTTTT", "Palermo");
 		Preferenza p = new Preferenza();
-		for(Voce v: s.getInformazione().getVoci()) p.add(v, 1);
-		e.esprimiPreferenza(s, p);
-		assertEquals(cae.scrutinio(s), s.scrutinio());
+		for(Voce v: sch.getInformazione().getVoci()) p.add(v, 1);
+		sch.esprimiPreferenza(p);
+		assertFalse(sch.scrutinio());
+		Set<Voce> voci = new HashSet<>();
+		for(Voce v:sch.getInformazione()) voci.add(v);
+		Risultato r = new Risultato(ModCalcoloVincitore.MAGGIORANZA, 0, voci);
+		r.add(q, 1);
+		r.calcolaVincitore();
+		q.elimina();
 		s.elimina();
+		sch.elimina();
 	}
 	
 	@Test
-	void scrutinioScrutinatoreRisultatiNoRaggiuntoLivelloQuorum() {
-		Cae cae = new Cae("prova@prova.com", true, false);
+	void scrutinioSìPreferenzeTerminataSessioneRisultatoNullRaggiuntoQuorum() {
+		Elettore e1 = new Elettore("test@test.it", "TTTTTTTTTTTTTTTT", "Palermo");
+		Elettore e2 = new Elettore("test@test.fr", "TTTTTTTTTTTTTTTR", "Palermo");
+		e1.crea("");
+		e2.crea("");
 		InformazioneScheda i = new InformazioneScheda();
-		i.add(new Quesito("test"));
-		SchedaElettorale s = new SchedaElettorale("", i, 0, ModVoto.CATEGORICO, ModCalcoloVincitore.MAGGIORANZA, 0);
+		Quesito q = new Quesito("test");
+		q.crea();
+		i.add(q);
+		SchedaElettorale sch = new SchedaElettorale("", i, 0, ModVoto.CATEGORICO, ModCalcoloVincitore.MAGGIORANZA, 0);
+		sch.crea();
+		Set<SchedaElettorale> schede = new HashSet<>();
+		schede.add(sch);
+				
+		Calendar c = Calendar.getInstance(); 
+		c.add(Calendar.DATE, -2);
+		Date inizio = c.getTime();
+		
+		c = Calendar.getInstance(); 
+		c.add(Calendar.DATE, -1);
+		Date fine = c.getTime();
+				
+		Sessione s = new Sessione("test sessione", inizio, fine, schede, "Palermo");
 		s.crea();
-		Elettore e = new Elettore("test@test.com", "TTTTTTTTTTTTTTT", "Palermo");
 		Preferenza p = new Preferenza();
-		for(Voce v: s.getInformazione().getVoci()) p.add(v, 1);
-		e.esprimiPreferenza(s, p);
-		assertEquals(cae.scrutinio(s), s.scrutinio());
+		for(Voce v: sch.getInformazione().getVoci()) p.add(v, 1);
+		e1.esprimiPreferenza(sch, p);
+		assertTrue(sch.scrutinio());
+		Set<Voce> voci = new HashSet<>();
+		for(Voce v:sch.getInformazione()) voci.add(v);
+		Risultato r = new Risultato(ModCalcoloVincitore.MAGGIORANZA, 1, voci);
+		r.add(q, 1);
+		r.calcolaVincitore();
+		assertEquals(sch.getRisultato(), r);
+		e1.elimina();
+		e2.elimina();
+		q.elimina();
 		s.elimina();
+		sch.elimina();
 	}
-	*/
+	
+	@Test
+	void scrutinioSìPreferenzeTerminataSessioneRisultatoNullNoRaggiuntoQuorum() {
+		Elettore e1 = new Elettore("test@test.it", "TTTTTTTTTTTTTTTT", "Palermo");
+		Elettore e2 = new Elettore("test@test.fr", "TTTTTTTTTTTTTTTR", "Palermo");
+		e1.crea("");
+		e2.crea("");
+		InformazioneScheda i = new InformazioneScheda();
+		Quesito q = new Quesito("test");
+		q.crea();
+		i.add(q);
+		SchedaElettorale sch = new SchedaElettorale("", i, 0, ModVoto.CATEGORICO, ModCalcoloVincitore.MAGGIORANZA, 100);
+		sch.crea();
+		Set<SchedaElettorale> schede = new HashSet<>();
+		schede.add(sch);
+				
+		Calendar c = Calendar.getInstance(); 
+		c.add(Calendar.DATE, -2);
+		Date inizio = c.getTime();
+		
+		c = Calendar.getInstance(); 
+		c.add(Calendar.DATE, -1);
+		Date fine = c.getTime();
+				
+		Sessione s = new Sessione("test sessione", inizio, fine, schede, "Palermo");
+		s.crea();
+		Preferenza p = new Preferenza();
+		for(Voce v: sch.getInformazione().getVoci()) p.add(v, 1);
+		e1.esprimiPreferenza(sch, p);
+		assertFalse(sch.scrutinio());
+		Set<Voce> voci = new HashSet<>();
+		for(Voce v:sch.getInformazione()) voci.add(v);
+		Risultato r = new Risultato(ModCalcoloVincitore.MAGGIORANZA, 1, voci);
+		r.add(q, 1);
+		r.calcolaVincitore();
+		assertEquals(sch.getRisultato(), r);
+		e1.elimina();
+		e2.elimina();
+		q.elimina();
+		s.elimina();
+		sch.elimina();
+	}
+
+	
+	@Test
+	void scrutinioSìPreferenzeTerminataSessioneRisultatoNoNullRaggiuntoQuorum() {
+		InformazioneScheda i = new InformazioneScheda();
+		Quesito q = new Quesito("test");
+		q.crea();
+		i.add(q);
+		SchedaElettorale sch = new SchedaElettorale("", i, 0, ModVoto.CATEGORICO, ModCalcoloVincitore.MAGGIORANZA, 0);
+		sch.crea();
+		Set<SchedaElettorale> schede = new HashSet<>();
+		schede.add(sch);
+				
+		Calendar c = Calendar.getInstance(); 
+		c.add(Calendar.DATE, -2);
+		Date inizio = c.getTime();
+		
+		c = Calendar.getInstance(); 
+		c.add(Calendar.DATE, -1);
+		Date fine = c.getTime();
+				
+		Sessione s = new Sessione("test sessione", inizio, fine, schede, "Palermo");
+		s.crea();
+		Preferenza p = new Preferenza();
+		for(Voce v: sch.getInformazione().getVoci()) p.add(v, 1);
+		sch.esprimiPreferenza(p);
+		sch.scrutinio();
+		assertTrue(sch.scrutinio());
+		Set<Voce> voci = new HashSet<>();
+		q.elimina();
+		s.elimina();
+		sch.elimina();
+		q.elimina();
+	}
+
+
 }

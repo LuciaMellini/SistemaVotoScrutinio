@@ -213,7 +213,7 @@ public class SessioneDAOImpl implements SessioneDAO{
 				c.add(Calendar.DATE, 1);
 				c.add(Calendar.MILLISECOND, -1);
 				fine = c.getTime();
-				Sessione = new Sessione(rs.getInt("id"), rs.getString("descrizione"), inizio, fine, this.getSchedeElettorali(rs.getInt("id")), rs.getString("luogo"));
+				Sessione = new Sessione(id, rs.getString("descrizione"), inizio, fine, this.getSchedeElettorali(rs.getInt("id")), rs.getString("luogo"));
 			}
 		}catch(SQLException ex){
 	    	System.out.print("getSessioneFromId - SQLException: "+ ex.getMessage());

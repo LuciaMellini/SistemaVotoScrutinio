@@ -101,7 +101,7 @@ public class ConfermaVotoController {
         AreaVotoController controller = fxmlLoader.getController();
         controller.setElettore(elettore);
         controller.setCae(cae);
-        controller.setSchedaElettorale(new SchedaElettorale(schedaElettorale.getId(), schedaElettorale.getDescrizione(),  schedaElettorale.getInformazione(), schedaElettorale.getLimiteEta(), schedaElettorale.getModVoto(), schedaElettorale.getModCalcoloVincitore(), schedaElettorale.getQuorum()));
+        controller.setSchedaElettorale(schedaElettorale);
         
     	Scene scene = new Scene(root, 570, 420);
         stage.setTitle("SistemaVotoScrutinio");

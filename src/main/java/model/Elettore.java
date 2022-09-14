@@ -57,11 +57,21 @@ public class Elettore extends Utente{
     	return eDAO.esiste(this);
 	}
 	
+	public static boolean registrato(String email) {
+		ElettoreDAO eDAO = new ElettoreDAOImpl();
+    	return !Objects.isNull(eDAO.getElettore(email));
+	}
+	
 	public void esprimiPreferenza(SchedaElettorale s, Preferenza p) {
 		s.esprimiPreferenza(p);
 		ElettoreDAO eDAO = new ElettoreDAOImpl();
 		eDAO.segnaVoceComeNonEsprimibile(this, s);
 		SistemaVotoScrutinio.getIstanza().log("Elettore " + this.codiceFiscale + "esprime la preferenza per la scheda elettorale " + s.getId());
+		comunicaPreferenzaEspressa();
+	}
+	
+	private void comunicaPreferenzaEspressa() {
+		
 	}
 	
 	public boolean preferenzaEspressa(SchedaElettorale s) {

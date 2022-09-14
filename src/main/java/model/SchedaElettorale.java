@@ -43,9 +43,9 @@ public class SchedaElettorale{
 	}
 	
 	public SchedaElettorale(int id) {
-		this.id = id;
 		SchedaElettoraleDAO sDAO = new SchedaElettoraleDAOImpl();
 		SchedaElettorale schedaElettorale = sDAO.getSchedaElettorale(id);
+		this.id = id;
 		this.descrizione = schedaElettorale.descrizione;
 		this.limiteEta = schedaElettorale.limiteEta;
 		this.informazione = schedaElettorale.informazione;
@@ -79,7 +79,8 @@ public class SchedaElettorale{
 	}
 	
 	public Risultato getRisultato() {
-		return new Risultato(risultato);
+		if(!Objects.isNull(risultato)) return new Risultato(risultato);
+		else return null;
 	}
 	
 	public int getQuorum(){
@@ -134,8 +135,10 @@ public class SchedaElettorale{
 	}
 	
 	public boolean scrutinio() {
-		if(getPreferenze().isEmpty()) {
-			return false;
+		risultato = null;
+		Date date = new Date();
+		for (Sessione c : this.getSessioni()) {
+			if(c.getDataFine().after(date)) return false;
 		}
 		if(Objects.isNull(risultato)) {
 			risultato = new Risultato(modCalcoloVincitore, this.numeroElettoriEffettivi(), this.getInformazione().getVoci());
@@ -150,12 +153,7 @@ public class SchedaElettorale{
 		    }
 		    risultato.calcolaVincitore();
 		}
-		Date date = new Date();
-		for (Sessione c : this.getSessioni()) {
-			if(c.getDataFine().after(date)) {
-				return false;
-			}
-		}
+		
 		return true;
 	}
 	

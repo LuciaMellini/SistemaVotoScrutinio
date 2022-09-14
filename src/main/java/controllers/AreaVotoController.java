@@ -188,6 +188,7 @@ public class AreaVotoController {
 			public void changed(ObservableValue<? extends Partito> observable, Partito oldValue, Partito newValue) {
 				preferenza.remove(oldValue);
 				preferenza.add(newValue, 1);
+				if(Objects.isNull(choiceBoxCandidati.getValue())) preferenza.add(newValue.getCapoPartito(), 1);
 			}
 			
 		});
@@ -195,7 +196,8 @@ public class AreaVotoController {
 		choiceBoxCandidati.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Candidato>() {
 			@Override
 			public void changed(ObservableValue<? extends Candidato> observable, Candidato oldValue, Candidato newValue) {
-				preferenza.remove(oldValue);
+				if(Objects.isNull(oldValue) && !Objects.isNull(choiceBoxPartiti.getValue())) preferenza.remove(choiceBoxPartiti.getValue().getCapoPartito());
+				preferenza.remove(oldValue);				
 				preferenza.add(newValue, 1);
 			}
 			
@@ -228,11 +230,9 @@ public class AreaVotoController {
 
 			@Override
 			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
-				if(oldValue.equals(Si)) {
-					preferenza.remove(quesito);
-				}else {
-					preferenza.add(quesito, 1);
-				}
+				if(!Objects.isNull(oldValue)) preferenza.remove(quesito);
+				if(newValue.equals(Si)) preferenza.add(quesito, 1);
+				else preferenza.add(quesito, 0);
 			}			
 		});
     	

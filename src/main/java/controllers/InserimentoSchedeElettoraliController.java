@@ -35,7 +35,7 @@ public class InserimentoSchedeElettoraliController {
     @FXML
     void handleBtnInserireSchedeElettorali(ActionEvent event) throws IOException{
     	String email=lblEmail.getText();
-    	
+    	lblMessage.setVisible(false);
     	boolean b=Pattern.compile("^[a-zA-Z0-9_!#$%&’*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$").matcher(email).matches(); 
     	if(b==false) {
     		lblMessage.setVisible(true);
@@ -46,15 +46,20 @@ public class InserimentoSchedeElettoraliController {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/areaElettore.fxml"));
         Parent root = (Parent) fxmlLoader.load();
         AreaElettoreController controller = fxmlLoader.getController();
-        Elettore elettore = new Elettore(email);
-        controller.setElettore(elettore);
-        controller.setCae(cae);
-        root.requestFocus();
-        Scene scene = new Scene(root, 570, 420);
-        stage.setTitle("SistemaVotoScrutinio");
-        stage.setScene(scene);
-        stage.show();
-        root.requestFocus();
+        if(Elettore.registrato(email)) {
+        	Elettore elettore = new Elettore(email);
+        	controller.setElettore(elettore);
+	        controller.setCae(cae);
+	        root.requestFocus();
+	        Scene scene = new Scene(root, 570, 420);
+	        stage.setTitle("SistemaVotoScrutinio");
+	        stage.setScene(scene);
+	        stage.show();
+	        root.requestFocus();
+        }else {
+        	lblMessage.setText("Non è registrato un elettore associato alla mail inserita");
+        	lblMessage.setVisible(true);
+        }
     }
 
     @FXML

@@ -26,11 +26,21 @@ public class Sessione implements Iterable<SchedaElettorale>{
 	public Sessione(int id) {
 		SessioneDAO cDAO = new SessioneDAOImpl();
 		Sessione sessione = cDAO.getSessione(id);
+		this.id = id;
 		this.descrizione = sessione.descrizione;
 		this.inizio = sessione.inizio;
 		this.fine = sessione.fine;
 		this.schedeElettorali = sessione.schedeElettorali;
 		this.luogo = sessione.luogo;
+	}
+	
+	public Sessione(int id, String descrizione, Date inizio, Date fine, Set<SchedaElettorale> schedeElettorali, String luogo) {
+		this.id = id;
+		this.descrizione = new String(descrizione);
+		this.inizio = inizio;
+		this.fine = fine;
+		this.schedeElettorali = schedeElettorali;
+		this.luogo = luogo;
 	}
 	
 	public Sessione(String descrizione, Date inizio, Date fine, Set<SchedaElettorale> schedeElettorali, String luogo) {
@@ -52,15 +62,6 @@ public class Sessione implements Iterable<SchedaElettorale>{
 		c.add(Calendar.DATE, 1);
 		c.add(Calendar.MILLISECOND, -1);
 		fine = c.getTime();
-		this.inizio = inizio;
-		this.fine = fine;
-		this.schedeElettorali = schedeElettorali;
-		this.luogo = luogo;
-	}
-	
-	public Sessione(int id, String descrizione, Date inizio, Date fine, Set<SchedaElettorale> schedeElettorali, String luogo) {
-		this.descrizione = new String(descrizione);
-		this.id = id;
 		this.inizio = inizio;
 		this.fine = fine;
 		this.schedeElettorali = schedeElettorali;

@@ -19,6 +19,13 @@ public class Quesito implements Voce{
 		this.quesito = quesito;
 	}
 	
+	public Quesito(int id) {
+		QuesitoDAO qDAO = new QuesitoDAOImpl();
+		Quesito q = qDAO.getQuesito(id);
+		this.id = id;
+		this.quesito = q.quesito;
+	}
+	
 	public int getId() {
 		return id;
 	}

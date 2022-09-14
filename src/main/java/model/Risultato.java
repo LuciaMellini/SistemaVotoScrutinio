@@ -27,10 +27,12 @@ public class Risultato implements Iterable<Entry<Voce, Integer>>{
 	}
 	
 	public Risultato(Risultato risultato) {
-		this.risultato = new HashMap<>(risultato.risultato);
-		this.numeroVotanti = risultato.numeroVotanti;
-		this.modCalcoloVincitore = risultato.modCalcoloVincitore;
-		this.vincitore = risultato.vincitore;
+		if(!Objects.isNull(risultato)) {
+			this.risultato = new HashMap<>(risultato.risultato);
+			this.numeroVotanti = risultato.numeroVotanti;
+			this.modCalcoloVincitore = risultato.modCalcoloVincitore;
+			this.vincitore = risultato.vincitore;
+		}
 	}
 	
 	public int getNumeroVotanti() {
@@ -65,7 +67,7 @@ public class Risultato implements Iterable<Entry<Voce, Integer>>{
 		for(Entry<Voce, Integer> e : list) {
 			sb.append(e.getKey().toString() + ": " + e.getValue() + "\n");
 		}
-		sb.append("\nVincitore: " + vincitore.toString());
+		if(!Objects.isNull(vincitore)) sb.append("\nVincitore: " + vincitore.toString());
 		return sb.toString();
 	}
 	

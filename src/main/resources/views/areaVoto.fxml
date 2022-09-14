@@ -25,6 +25,5 @@
          </font>
       </Label>
       <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="337.0" prefHeight="17.0" prefWidth="489.0" />
-      <Label layoutX="137.0" layoutY="329.0" text="Esprimere la preferenza impiegherà al massimo 5 minuti" />
    </children>
 </AnchorPane>

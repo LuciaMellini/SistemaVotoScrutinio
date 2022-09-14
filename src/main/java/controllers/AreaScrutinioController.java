@@ -59,16 +59,13 @@ public class AreaScrutinioController {
     void handleScrutinio(ActionEvent event) throws IOException{
     	SchedaElettorale selezionato = choiceSchedaElettorale.getValue();
     	if(!Objects.isNull(selezionato)) {
+    		boolean flag = cae.scrutinio(selezionato);
 			Risultato risultato = selezionato.getRisultato();
-    		if(!cae.scrutinio(selezionato)) {
-    			if(risultato.getNumeroVotanti() < selezionato.getQuorum()) {
-    			    lblRisultato.setText("Non è stato raggiunto il quorum");
-    		    }else {
-    		    	lblRisultato.setText("Non sono concluse le Sessioni che contengono la scheda selezionata");
-    		    }
-    		}else {
-    			lblRisultato.setText(cae.comunicaRisultato(selezionato));
-    		}
+			if(Objects.isNull(risultato)) {
+				lblRisultato.setText("Non sono concluse le Sessioni che contengono la scheda selezionata");
+			}else if(!flag) lblRisultato.setText("Non è stato raggiunto il quorum");
+			else lblRisultato.setText(cae.comunicaRisultato(selezionato));
+			    		
     	}else {
     		lblMessage.setText("Selezionare una scheda elettorale");
     	}

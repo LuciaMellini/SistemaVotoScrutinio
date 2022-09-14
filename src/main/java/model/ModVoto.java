@@ -39,7 +39,7 @@ public enum ModVoto {
 
 			Collections.reverse(list);
 			for(Entry<Voce, Integer> e : list) {
-				sb.append(e.getKey().toString());
+				sb.append(e.getKey().toString() + ": " + e.getValue() + "\n");
 			}
 			Voce vincitore = r.getVincitore();
 			if(!Objects.isNull(vincitore)) {
@@ -47,6 +47,7 @@ public enum ModVoto {
 			}else {
 				sb.append("\nNon è stato possibile calcolare il vincitore; consultare il risulato complessivo");
 			}
+			sb.append("\n\nPer ciascuna voce è stato riportato il punteggio cumulativo\nLa posizione nella preferenza corrisponde a un voto \nnel range [1,numero posizioni(punteggio posizione più alta)]");
 			return sb.toString();
 		}
 

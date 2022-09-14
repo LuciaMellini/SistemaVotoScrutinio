@@ -29,14 +29,13 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnVota" layoutX="282.0" layoutY="347.0" mnemonicParsing="false" onAction="#handleVota" text="Vota" />
+      <Button fx:id="btnVota" layoutX="265.0" layoutY="346.0" mnemonicParsing="false" onAction="#handleVota" text="Vota" />
       <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="110.0" layoutY="286.0" prefHeight="40.0" prefWidth="381.0" textAlignment="CENTER" />
       <ButtonBar buttonMinWidth="0.0" layoutX="1.0" prefHeight="40.0" prefWidth="51.0">
          <buttons>
             <Button fx:id="btnGetBack" alignment="CENTER" contentDisplay="CENTER" minWidth="0.0" mnemonicParsing="false" onAction="#handleGetBack" prefHeight="25.0" prefWidth="40.0" text="Esci" textAlignment="CENTER" />
          </buttons>
       </ButtonBar>
-      <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="104.0" layoutY="318.0" prefHeight="17.0" prefWidth="398.0" />
-      <Label layoutX="152.0" layoutY="318.0" text="Esprimere la preferenza impiegherà al massimo 5 minuti" />
+      <Label fx:id="lblMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="5.0" layoutY="318.0" prefHeight="17.0" prefWidth="560.0" text="Esprimere la preferenza impiegherà al massimo 5 minuti" />
    </children>
 </AnchorPane>
