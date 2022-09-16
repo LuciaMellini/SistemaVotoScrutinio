@@ -60,18 +60,10 @@ class SchedaElettoraleTest {
 		s.elimina();
 		q.elimina();
 	}
-
-
-	@Test
-	void scrutinioNoPreferenze() {
-		SchedaElettorale s = new SchedaElettorale("", new InformazioneScheda(), 0, ModVoto.CATEGORICO, ModCalcoloVincitore.MAGGIORANZA, 0);
-		s.crea();
-		assertFalse(s.scrutinio());
-		s.elimina();
-	}
 	
+
 	@Test
-	void scrutinioSìPreferenzeNoTerminataSessione() {
+	void scrutinioNoTerminataSessione() {
 		InformazioneScheda i = new InformazioneScheda();
 		Quesito q = new Quesito("test");
 		q.crea();
@@ -106,7 +98,7 @@ class SchedaElettoraleTest {
 	}
 	
 	@Test
-	void scrutinioSìPreferenzeTerminataSessioneRisultatoNullRaggiuntoQuorum() {
+	void scrutinioTerminataSessioneRisultatoNullRaggiuntoQuorum() {
 		Elettore e1 = new Elettore("test@test.it", "TTTTTTTTTTTTTTTT", "Palermo");
 		Elettore e2 = new Elettore("test@test.fr", "TTTTTTTTTTTTTTTR", "Palermo");
 		e1.crea("");
@@ -148,7 +140,7 @@ class SchedaElettoraleTest {
 	}
 	
 	@Test
-	void scrutinioSìPreferenzeTerminataSessioneRisultatoNullNoRaggiuntoQuorum() {
+	void scrutinioTerminataSessioneRisultatoNullNoRaggiuntoQuorum() {
 		Elettore e1 = new Elettore("test@test.it", "TTTTTTTTTTTTTTTT", "Palermo");
 		Elettore e2 = new Elettore("test@test.fr", "TTTTTTTTTTTTTTTR", "Palermo");
 		e1.crea("");
@@ -191,7 +183,7 @@ class SchedaElettoraleTest {
 
 	
 	@Test
-	void scrutinioSìPreferenzeTerminataSessioneRisultatoNoNullRaggiuntoQuorum() {
+	void scrutinioTerminataSessioneRisultatoNoNullRaggiuntoQuorum() {
 		InformazioneScheda i = new InformazioneScheda();
 		Quesito q = new Quesito("test");
 		q.crea();

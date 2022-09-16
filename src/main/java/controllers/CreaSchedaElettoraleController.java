@@ -101,6 +101,22 @@ public class CreaSchedaElettoraleController {
     	spinnerEta.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(18,30));
     	spinnerQuorum.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,100));
     	choiceModVoto.setItems(FXCollections.observableArrayList(ModVoto.values()));
+    	choiceModVoto.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<ModVoto>() {
+
+			@Override
+			public void changed(ObservableValue<? extends ModVoto> observable, ModVoto oldValue, ModVoto newValue) {
+				if(newValue.equals(ModVoto.REFERENDUM)) {
+	    			choiceModCalcoloVinc.setValue(ModCalcoloVincitore.MAGGIORANZA);
+	    			choiceModCalcoloVinc.setDisable(true);
+	    		}
+	    		else{
+	    			choiceModCalcoloVinc.setItems(FXCollections.observableArrayList(choiceModVoto.getValue().possibiliModCalcoloVincitore()));
+	    			choiceModCalcoloVinc.setDisable(false);    			
+	    		}
+	    		newValue.handleViewCreazione(lblInfo, paneOpzioni, informazioneScheda, cae);
+				
+			}
+		});
     	choiceModCalcoloVinc.setDisable(true);
     	informazioneScheda = new InformazioneScheda();
 	}
@@ -109,19 +125,11 @@ public class CreaSchedaElettoraleController {
     @FXML
     void handleChoiceModCalcoloVinc(MouseEvent event) {
     }
-
-    ModVoto precedente = null;
     
    
     @FXML
     void handleChoiceModVoto(MouseEvent event) {
-    	ModVoto corrente = choiceModVoto.getValue();
-    	if(!Objects.isNull(corrente) && !corrente.equals(precedente)) {
-    		precedente = corrente;
-    		choiceModCalcoloVinc.setDisable(false);
-    		choiceModCalcoloVinc.setItems(FXCollections.observableArrayList(choiceModVoto.getValue().possibiliModCalcoloVincitore()));
-    		corrente.handleViewCreazione(lblInfo, paneOpzioni, informazioneScheda, cae);
-    	}
+    	
     }
     
     public static void handleSceltaCandidatiPartiti(Label lblInfo, GridPane paneOpzioni, InformazioneScheda informazioneScheda, Cae cae) {
@@ -140,10 +148,11 @@ public class CreaSchedaElettoraleController {
     	paneOpzioni.getChildren().clear();
         paneOpzioni.add(r, 0, 0);
     
-    	
-    	EventHandler<ActionEvent> handleToggleGroup = new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				Toggle selected = tg.getSelectedToggle();
+    	tg.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+
+			@Override
+			public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+				Toggle selected = newValue;
 				if(!Objects.isNull(selected)) {
 		        	if(((RadioButton) tg.getSelectedToggle()).equals(r1)) {
 		        		handleInformazioneSchedaPartiti(lblInfo, paneOpzioni, informazioneScheda, cae, false);
@@ -151,11 +160,9 @@ public class CreaSchedaElettoraleController {
 		        		handleInformazioneSchedaCandidati(lblInfo, paneOpzioni, informazioneScheda, cae);
 		        	}
 				}
-			};
-		};
-
-		r1.setOnAction(handleToggleGroup);
-		r2.setOnAction(handleToggleGroup);
+			}
+    		
+    	});
 		
     }
     

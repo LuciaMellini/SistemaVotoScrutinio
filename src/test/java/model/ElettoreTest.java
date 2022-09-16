@@ -300,6 +300,7 @@ class ElettoreTest {
 		e.elimina();
 	}
 	
+	/*impostare come public la visibilità del metodo autorizzato
 	
 	@Test
 	void autorizzatoSì() {
@@ -315,5 +316,5 @@ class ElettoreTest {
 		e.crea("");
 		assertFalse(e.autorizzato(18));
 		e.elimina();
-	}
+	}*/
 }

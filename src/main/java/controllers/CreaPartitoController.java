@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -36,6 +38,9 @@ public class CreaPartitoController {
 
     @FXML
     private Button btnCreaPartito;
+    
+    @FXML
+    private Button btnCreaCandidato;
 
     @FXML
     private Button btnGetBack;
@@ -54,6 +59,7 @@ public class CreaPartitoController {
     
     List<CheckBox> checkboxes = new ArrayList<CheckBox>();
     Set<Candidato> candidati;
+	Set<Candidato> candidatiScelti = new HashSet<Candidato>();
     
     @FXML
     public void initialize() {
@@ -63,14 +69,27 @@ public class CreaPartitoController {
     		lblMessage.setVisible(true);
     		choiceCapoPartito.setDisable(true);
     	}else {
-    		choiceCapoPartito.setItems(FXCollections.observableArrayList(candidati));
+    		
     		
     		TilePane r = new TilePane();
         	
         	for(Candidato c : candidati) {
-        		checkboxes.add(new CheckBox(c.toString()));
-        		CheckBox attuale = checkboxes.get(checkboxes.size()-1);
-        		r.getChildren().add(attuale);
+        		CheckBox checkbox = new CheckBox(c.toString());
+        		checkbox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+
+    				@Override
+    				public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+    					if(newValue) {
+    						candidatiScelti.add(c);
+    					}else {
+    						candidatiScelti.remove(c);
+    					}
+    					choiceCapoPartito.setItems(FXCollections.observableArrayList(candidatiScelti));
+    				}
+    			});
+        		
+        		checkboxes.add(checkbox);
+        		r.getChildren().add(checkbox);
         	}
         	r.setAlignment(Pos.CENTER);
         	paneCandidati.add(r,0,0);
@@ -112,39 +131,24 @@ public class CreaPartitoController {
     void handleBtnCreaPartito(ActionEvent event) throws IOException{
     	String nome = lblNome.getText();
     	Candidato capoPartito = choiceCapoPartito.getValue();
-    	Set<Candidato> candidatiScelti = new HashSet<Candidato>();
-    	for(CheckBox c : checkboxes) {
-			if(c.isSelected()) {
-				for(Candidato candidato : candidati)
-					if(c.getText().equals(candidato.toString())) {
-						candidatiScelti.add(candidato);
-					}
-				
-			}
-		}
     	
     	if(!Objects.isNull(nome) && !nome.isEmpty() && !nome.trim().isEmpty()) {
     		if(!Objects.isNull(capoPartito)) {
     			if(!Objects.isNull(candidatiScelti)) {
-    				if(candidatiScelti.contains(capoPartito)) {
-    					(new Partito(nome, capoPartito, candidatiScelti)).crea();
-            		
-	            		Stage stage = (Stage) btnCreaPartito.getScene().getWindow();
-	                	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/creaSchedaElettorale.fxml"));    	
-	                	Parent root = (Parent) fxmlLoader.load();
-	                	CreaSchedaElettoraleController controller = fxmlLoader.getController();
-	                    controller.setCae(cae);
-	                    
-	                	Scene scene = new Scene(root, 770, 620);
-	                    stage.setTitle("SistemaVotoScrutinio");
-	                    stage.setScene(scene);
-	                    stage.show();
-	                    root.requestFocus();
-    				}else {
-    					lblMessage.setVisible(true);
-                		lblMessage.setText("Il capo partito deve essere uno dei candidati del partito");
-    				}
-            		
+					(new Partito(nome, capoPartito, candidatiScelti)).crea();
+        		
+            		Stage stage = (Stage) btnCreaPartito.getScene().getWindow();
+                	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/creaSchedaElettorale.fxml"));    	
+                	Parent root = (Parent) fxmlLoader.load();
+                	CreaSchedaElettoraleController controller = fxmlLoader.getController();
+                    controller.setCae(cae);
+                    
+                	Scene scene = new Scene(root, 770, 620);
+                    stage.setTitle("SistemaVotoScrutinio");
+                    stage.setScene(scene);
+                    stage.show();
+                    root.requestFocus();
+    				            		
             	}else {
             		lblMessage.setVisible(true);
             		lblMessage.setText("Inserire candidati");
@@ -158,6 +162,24 @@ public class CreaPartitoController {
     		lblMessage.setText("Inserire nome");
     	}
 
+    }
+    
+    @FXML
+    void handleBtnCreaCandidato(ActionEvent event) throws IOException{
+    	Stage stage = (Stage) btnCreaCandidato.getScene().getWindow();
+    	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/creaCandidato.fxml"));
+    	try {
+    		Parent root = (Parent) fxmlLoader.load();   
+    		CreaCandidatoController controller = fxmlLoader.getController();
+    		controller.setCae(cae);
+	        Scene scene = new Scene(root, 570, 420);
+	        stage.setTitle("SistemaVotoScrutinio");
+	        stage.setScene(scene);
+	        stage.show();
+	        root.requestFocus();
+    	}catch (IOException e) {
+			System.out.println(e.getStackTrace());
+		}
     }
 
 }

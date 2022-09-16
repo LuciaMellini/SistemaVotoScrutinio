@@ -63,7 +63,7 @@ public class AutenticazioneCAEController {
     	}else {
     		Parent root;
     		if(i==3) {    			
-				fxmlLoader= new FXMLLoader(getClass().getResource("/views/credenzialiErrate.fxml"));
+				fxmlLoader= new FXMLLoader(getClass().getResource("/views/benvenuto.fxml"));
 				root = (Parent) fxmlLoader.load();
     		}else {
 		        fxmlLoader = new FXMLLoader(getClass().getResource("/views/areaCAE.fxml"));

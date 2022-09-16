@@ -39,9 +39,7 @@ public class AccessoSPIDCIEController {
     		
     		int i=0;
 			@Override
-			public void handle(Event event) {
-    			i++;
-    			
+			public void handle(Event event) {    			
     			String email=lblEmail.getText();
     	    	String password=lblPassword.getText();
     	    	
@@ -64,7 +62,7 @@ public class AccessoSPIDCIEController {
     	    	}else {
     	    		try {
     	    			if(i==3) {    			
-	    					fxmlLoader= new FXMLLoader(getClass().getResource("/views/credenzialiErrate.fxml"));
+	    					fxmlLoader= new FXMLLoader(getClass().getResource("/views/benvenuto.fxml"));
 	    		            root = (Parent) fxmlLoader.load();
 	    				
 	    	    		}else {

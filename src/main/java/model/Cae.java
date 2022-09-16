@@ -71,8 +71,7 @@ public class Cae extends Utente{
 		return false;
 	}
 	
-	public String comunicaRisultato(SchedaElettorale s) {
-		return s.toStringRisultato();
+	public void comunicaRisultato(SchedaElettorale s) {
 	}
 	
 	public void creaSchedaElettorale(SchedaElettorale s) {

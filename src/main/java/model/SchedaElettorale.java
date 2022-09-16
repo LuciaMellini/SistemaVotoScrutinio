@@ -158,7 +158,10 @@ public class SchedaElettorale{
 	}
 	
 	public String toStringRisultato() {
-		return modVoto.toStringRisultato(this.risultato);
+		if(Objects.isNull(risultato)) {
+			return "Non sono concluse le Sessioni che contengono la scheda selezionata";
+		}else if(risultato.getNumeroVotanti()<=this.getQuorum()) return "Non è stato raggiunto il quorum";
+		else return modVoto.toStringRisultato(this.risultato);
 	}
 	
 	@Override

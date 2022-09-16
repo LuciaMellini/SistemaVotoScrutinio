@@ -113,7 +113,7 @@ public class Elettore extends Utente{
 	}	
 	
 	@SuppressWarnings("deprecation")
-	public boolean autorizzato(int etaMin) {
+	private boolean autorizzato(int etaMin) {
 		Date oggi=new Date();
 		String cf = this.getCodiceFiscale();
 		Date nascita = dataNascitaDaCodiceFiscale(cf);

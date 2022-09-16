@@ -19,7 +19,6 @@ public class Main extends Application {
     	FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/benvenuto.fxml"));
         Parent root = fxmlLoader.load();
         BenvenutoController controller = fxmlLoader.getController();
-        //controller.setCae(new Cae("prova@prova.com"));
         primaryStage.setTitle("SistemaVotoScrutinio");
         primaryStage.setScene(new Scene(root, 570, 420));
         primaryStage.show();

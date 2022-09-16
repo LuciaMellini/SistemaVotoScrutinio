@@ -95,7 +95,9 @@ public class AreaElettoreController {
 	        AreaVotoController controller = fxmlLoader.getController(); 
 	        controller.setElettore(elettore);
 	        controller.setSchedaElettorale(selezione);
-	    	Scene scene = new Scene(root, 570, 420);
+	        if(!Objects.isNull(cae)) controller.setCae(cae);	
+	            	
+	        Scene scene = new Scene(root, 570, 420);
 	        stage.setTitle("SistemaVotoScrutinio");
 	        stage.setScene(scene);
 	        stage.show();
