@@ -51,7 +51,7 @@ public class SceltaTipoUtenteController {
         Parent root = (Parent) fxmlLoader.load();
         AreaElettoreController controller = fxmlLoader.getController();
         Elettore elettore = new Elettore(utente);
-        controller.setElettore(elettore);
+        controller.setUtente(elettore);
         
         Scene scene = new Scene(root, 570, 420);
         stage.setTitle("SistemaVotoScrutinio");

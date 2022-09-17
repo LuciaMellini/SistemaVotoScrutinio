@@ -13,7 +13,7 @@
    <children>
       <HBox alignment="CENTER" layoutX="20.0" layoutY="152.0" prefHeight="59.0" prefWidth="560.0" spacing="5.0">
          <children>
-            <Label prefHeight="17.0" prefWidth="127.0" text="Scheda elettorale">
+            <Label prefHeight="17.0" prefWidth="127.0" text="Consultazione">
                <HBox.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </HBox.margin>

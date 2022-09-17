@@ -46,6 +46,10 @@ public class Utente {
 		SistemaVotoScrutinio.getIstanza().log("Uscita utente " + this.getEmail());
 	}
 	
+	public void esprimiPreferenza(SchedaElettorale s, Preferenza p) {
+		s.esprimiPreferenza(p);
+	}
+	
 	public boolean isCae() {
 		UtenteDAO uDAO = new UtenteDAOImpl();
 		return uDAO.isCAE(this);

@@ -77,7 +77,7 @@ public class AccessoSPIDCIEController {
 	    			            root = (Parent) fxmlLoader.load();
 	    			            AreaElettoreController controller = fxmlLoader.getController();
 	    			            Elettore elettore = new Elettore(u);
-	    			            controller.setElettore(elettore);
+	    			            controller.setUtente(elettore);
 	    					}
 	    	    		}
     	    			root.requestFocus();

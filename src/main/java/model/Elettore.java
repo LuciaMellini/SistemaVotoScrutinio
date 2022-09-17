@@ -63,14 +63,14 @@ public class Elettore extends Utente{
 	}
 	
 	public void esprimiPreferenza(SchedaElettorale s, Preferenza p) {
-		s.esprimiPreferenza(p);
+		super.esprimiPreferenza(s, p);
 		ElettoreDAO eDAO = new ElettoreDAOImpl();
 		eDAO.segnaVoceComeNonEsprimibile(this, s);
 		SistemaVotoScrutinio.getIstanza().log("Elettore " + this.codiceFiscale + "esprime la preferenza per la scheda elettorale " + s.getId());
-		comunicaPreferenzaEspressa();
+		comunicaPreferenzaEspressa(s);
 	}
 	
-	private void comunicaPreferenzaEspressa() {
+	public void comunicaPreferenzaEspressa(SchedaElettorale s) {
 		
 	}
 	

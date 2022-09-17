@@ -25,20 +25,17 @@ import model.Partito;
 import model.Preferenza;
 import model.Quesito;
 import model.SchedaElettorale;
+import model.Utente;
 import model.Voce;
 
 public class ConfermaVotoController {
-	private Cae cae;
-	private Elettore elettore;
+	private Utente utente;
 	private SchedaElettorale schedaElettorale;
 	private Preferenza preferenza;
 	
-	public void setElettore(Elettore e) {
-		elettore = e;
-	}
 	
-	public void setCae(Cae c) {
-		cae = c;
+	public void setUtente(Utente u) {
+		utente = u;
 	}
 	
 	public void setSchedaElettoraleEPreferenza (SchedaElettorale s, Preferenza p) {
@@ -63,15 +60,15 @@ public class ConfermaVotoController {
     @FXML
     void handleConferma(ActionEvent event) throws IOException{
     	if(!preferenza.bianca()) {
-    		elettore.esprimiPreferenza(schedaElettorale, preferenza);
+    		utente.esprimiPreferenza(schedaElettorale, preferenza);
     	}
     	
-    	if(Objects.isNull(cae)) {
+    	if(!utente.isCae()) {
     		Stage stage = (Stage) btnConferma.getScene().getWindow();
 	    	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/areaElettore.fxml"));    	
 	    	Parent root = (Parent) fxmlLoader.load();
 	        AreaElettoreController controller = fxmlLoader.getController();
-	        controller.setElettore(elettore);
+	        controller.setUtente(utente);
 	        
 	    	Scene scene = new Scene(root, 570, 420);
 	        stage.setTitle("SistemaVotoScrutinio");
@@ -80,10 +77,10 @@ public class ConfermaVotoController {
 	        return;
     	}else {
     		Stage stage = (Stage) btnConferma.getScene().getWindow();
-	    	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/areaCAE.fxml"));    	
+	    	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/inserimentoSchedeElettorali.fxml"));    	
 	    	Parent root = (Parent) fxmlLoader.load();
-	        AreaCAEController controller = fxmlLoader.getController();
-	        controller.setCae(cae);
+	        InserimentoSchedeElettoraliController controller = fxmlLoader.getController();
+	        controller.setCae((Cae) utente);
 	        
 	    	Scene scene = new Scene(root, 570, 420);
 	        stage.setTitle("SistemaVotoScrutinio");
@@ -99,8 +96,7 @@ public class ConfermaVotoController {
     	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/areaVoto.fxml"));    	
     	Parent root = (Parent) fxmlLoader.load();
         AreaVotoController controller = fxmlLoader.getController();
-        controller.setElettore(elettore);
-        controller.setCae(cae);
+        controller.setUtente(utente);
         controller.setSchedaElettorale(schedaElettorale);
         
     	Scene scene = new Scene(root, 570, 420);

@@ -21,28 +21,26 @@ import model.Sessione;
 import model.Elettore;
 import model.SchedaElettorale;
 import model.SistemaVotoScrutinio;
+import model.Utente;
 
 public class AreaElettoreController {
-
-	private Elettore elettore;
-	private Cae cae;
+	private Utente utente;
 	
-	public void setElettore(Elettore e) {
-		this.elettore = e;
-		Set<SchedaElettorale> schedeElettorali = elettore.getSchedeElettoraliSenzaPreferenza();
+	public void setUtente(Utente u) {
+		this.utente = u;
+		Set<SchedaElettorale> schedeElettorali;
+		if(!utente.isCae()) schedeElettorali = ((Elettore) utente).getSchedeElettoraliSenzaPreferenza();
+		else schedeElettorali = ((Cae) utente).getSchedeElettoraliConElettori();
     	if(!Objects.isNull(schedeElettorali) && !schedeElettorali.isEmpty()) {
     		choiceSchedaElettorale.setItems(FXCollections.observableArrayList(schedeElettorali));
     	}else {
     		lblMessage.setText("Al momento non sono votabili schede elettorali");
+    		if(utente.isCae()) lblMessage.setText("Considerati i permessi, al momento non sono aperte consultazioni per cui inserire preferenze");
     		lblMessage.setVisible(true);
     		btnVota.setDisable(true);
     	}
 	}
 	
-	
-	public void setCae(Cae c) {
-		cae = c;
-	}
     @FXML
     private Button btnGetBack;
     
@@ -60,8 +58,8 @@ public class AreaElettoreController {
 
     @FXML
     void handleGetBack(ActionEvent event) throws IOException{
-    	if(Objects.isNull(cae)) {
-    		elettore.uscita();
+    	if(!utente.isCae()) {
+    		((Elettore) utente).uscita();
 	    	Stage stage = (Stage) btnGetBack.getScene().getWindow();
 	    	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/benvenuto.fxml")); 
 	    	Parent root = fxmlLoader.load();
@@ -76,7 +74,7 @@ public class AreaElettoreController {
     	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/areaCAE.fxml")); 
     	Parent root = fxmlLoader.load();
     	AreaCAEController controller = fxmlLoader.getController();
-    	controller.setCae(cae);
+    	controller.setCae((Cae) utente);
     	Scene scene = new Scene(root, 570, 420);
         stage.setTitle("SistemaVotoScrutinio");
         stage.setScene(scene);
@@ -93,9 +91,8 @@ public class AreaElettoreController {
 	    	FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/areaVoto.fxml")); 
 	    	Parent root = (Parent) fxmlLoader.load();
 	        AreaVotoController controller = fxmlLoader.getController(); 
-	        controller.setElettore(elettore);
+	        controller.setUtente(utente);
 	        controller.setSchedaElettorale(selezione);
-	        if(!Objects.isNull(cae)) controller.setCae(cae);	
 	            	
 	        Scene scene = new Scene(root, 570, 420);
 	        stage.setTitle("SistemaVotoScrutinio");

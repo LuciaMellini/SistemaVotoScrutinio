@@ -47,20 +47,17 @@ import model.Partito;
 import model.Preferenza;
 import model.Quesito;
 import model.SchedaElettorale;
+import model.Utente;
 import model.Voce;
 
 public class AreaVotoController {
-	private Cae cae;
-	private Elettore elettore;
+	private Utente utente;
 	private SchedaElettorale schedaElettorale;
 	private Preferenza preferenza;
 	
-	public void setCae(Cae c) {
-		cae = c;
-	}
 	
-	public void setElettore(Elettore e) {
-		this.elettore = e;
+	public void setUtente(Utente u) {
+		this.utente = u;
 	}
 	
 	public void setSchedaElettorale(SchedaElettorale s) {
@@ -240,19 +237,18 @@ public class AreaVotoController {
     
     @FXML
     void handleBtnVota(ActionEvent event) throws IOException{
-	    Stage stage = (Stage) btnVota.getScene().getWindow();
+		Stage stage = (Stage) btnVota.getScene().getWindow();
 	    FXMLLoader fxmlLoader= new FXMLLoader(getClass().getResource("/views/confermaVoto.fxml"));    	
 	    Parent root = (Parent) fxmlLoader.load();
 	    ConfermaVotoController controller = fxmlLoader.getController();
-	    controller.setElettore(elettore);
+	    controller.setUtente(utente);
 	    controller.setSchedaElettoraleEPreferenza(schedaElettorale, preferenza);
-	    controller.setCae(cae);
 	    
 	    Scene scene = new Scene(root, 570, 420);
 	    stage.setTitle("SistemaVotoScrutinio");
 	    stage.setScene(scene);
 	    stage.show();
-	    root.requestFocus();
+	    root.requestFocus();	    
     }
 
 }

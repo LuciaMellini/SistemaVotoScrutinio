@@ -7,6 +7,8 @@ import java.util.Set;
 import controllers.AreaScrutinioController;
 import database.CaeDAO;
 import database.CaeDAOImpl;
+import database.ElettoreDAO;
+import database.ElettoreDAOImpl;
 
 public class Cae extends Utente{
     private Boolean scrutinatore;
@@ -109,6 +111,19 @@ public class Cae extends Utente{
 		}
 		return schedeConElettori;
 	}
+	
+	public void esprimiPreferenza(SchedaElettorale s, Preferenza p) {
+		super.esprimiPreferenza(s, p);
+		SistemaVotoScrutinio.getIstanza().log("Inserita preferenza per la scheda elettorale " + s.getId());
+	}
+	
+	public void elettoreEspressaPreferenza(Elettore e, SchedaElettorale s) {
+		ElettoreDAO eDAO = new ElettoreDAOImpl();
+		eDAO.segnaVoceComeNonEsprimibile(e, s);
+		SistemaVotoScrutinio.getIstanza().log("Elettore " + e.getCodiceFiscale() + "ha espresso la preferenza per la scheda elettorale " + s.getId());
+		e.comunicaPreferenzaEspressa(s);
+	}
+		
 	
 	@Override
 	public String toString() {
